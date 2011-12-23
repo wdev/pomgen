@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- *********************************** -->
+	<!-- Padrao para o pom.xml do modulo EJB -->
+	<!-- *********************************** -->
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>BSAD2-Full-ejb</artifactId>
+	<name>BSAD2-Full-ejb</name>
+	<packaging>ejb</packaging>
+
+	<!-- ************************************ -->
+	<!-- Configuracao do parent project (POM) -->
+	<!-- ************************************ -->
+	<parent>
+		<groupId>BSAD2-Full</groupId>
+		<artifactId>BSAD2-Full-pom</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../BSAD2-Full-pom/pom.xml</relativePath>
+	</parent>
+
+	<!-- **************************************** -->
+	<!-- Configuracao das dependencias do projeto -->
+	<!-- **************************************** -->
+	<dependencies>
+
+		<!-- Dependencia do modulo ejbClient do projeto -->
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>${project.parent.groupId}-ejbClient</artifactId>
+			<version>${parent.version}</version>
+			<optional>true</optional>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Dependencia do modulo util do projeto -->
+		<dependency>
+			<groupId>BSAD-Framework-2.3</groupId>
+			<artifactId>bsad-framework</artifactId>
+			<version>2.3</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>BSAD-Framework-2.3-Resources</groupId>
+			<artifactId>bsad-framework-resources</artifactId>
+			<version>2.3</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>ibm.was-6.1</groupId>
+			<artifactId>ibm-was</artifactId>
+			<version>6.1</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+
+        <!--
+        <dependency>
+            <groupId>BRADSEG-Servicos</groupId>
+            <artifactId>BSAD2-Full-ejbClient</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>${project.parent.groupId}-util</artifactId>
+            <version>${parent.version}</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+
+	</dependencies>
+
+	<!-- ******************************** -->
+	<!-- Configuracao do build do projeto -->
+	<!-- ******************************** -->
+	<build>
+		<finalName>${project.parent.groupId}-ejb</finalName>
+		<defaultGoal>package</defaultGoal>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/META-INF</directory>
+				<targetPath>META-INF</targetPath>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>*application*.xml</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.java</include>
+					<include>**/*.html</include>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+            <!--
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>was6-maven-plugin</artifactId>
+				<version>1.2-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>ejbdeploy</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<wasHome>${was61.home}</wasHome>
+					<jdkComplianceLevel>5.0</jdkComplianceLevel>
+					<noValidate>true</noValidate>
+					<legacyMode>false</legacyMode>
+					<verbose>true</verbose>
+				</configuration>
+            </plugin>
+            -->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<configuration>
+					<ejbVersion>2.1</ejbVersion>
+					<archive>
+						<manifestFile>src/META-INF/MANIFEST.MF</manifestFile>
+						<manifestEntries>
+							<Application-Name>${pom.build.finalName}</Application-Name>
+							<Application-Version>${pom.version}</Application-Version>
+							<Iteration-Name>${iteration}</Iteration-Name>
+							<Build-Time>${buildNumber}</Build-Time>
+							<HudsonBuildNumber>${BUILD_NUMBER}</HudsonBuildNumber>
+							<HudsonBuildId>${BUILD_ID}</HudsonBuildId>
+							<HudsonJobName>${JOB_NAME}</HudsonJobName>
+							<HudsonBuildTag>${BUILD_TAG}</HudsonBuildTag>
+							<HudsonExecutorNumber>${EXECUTOR_NUMBER}</HudsonExecutorNumber>
+							<HudsonWorkspace>${WORKSPACE}</HudsonWorkspace>
+							<HudsonUrl>${HUDSON_URL}</HudsonUrl>
+							<HudsonSvnRevision>${SVN_REVISION}</HudsonSvnRevision>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!--  **************************************   -->
+	<!--  Padrao para o pom.xml da aplicacao EAR   -->
+	<!--  **************************************   -->
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>BSAD2-Full</artifactId>
+	<name>BSAD2-Full</name>
+	<packaging>ear</packaging>
+
+	<!--  ************************************   -->
+	<!--  Configuracao do parent project (POM)   -->
+	<!--  ************************************   -->
+	<parent>
+		<groupId>BSAD2-Full</groupId>
+		<artifactId>BSAD2-Full-pom</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../BSAD2-Full-pom/pom.xml</relativePath>
+	</parent>
+
+	<!--  ****************************************   -->
+	<!--  Configuracao das dependencias do projeto   -->
+	<!--  ****************************************   -->
+	<dependencies>
+
+		<!-- Dependencia do modulo ejb do projeto -->
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>${project.parent.groupId}-ejb</artifactId>
+			<version>${parent.version}</version>
+			<type>ejb</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Dependencia do modulo web do projeto -->
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>${project.parent.groupId}-web</artifactId>
+			<version>${parent.version}</version>
+			<type>war</type>
+			<scope>provided</scope>
+		</dependency>
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>${project.parent.groupId}-ws</artifactId>
+            <version>${parent.version}</version>
+            <type>war</type>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>${project.parent.groupId}-util</artifactId>
+			<version>${parent.version}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+	<!--  ******************************** -->
+	<!--  Configuracao do build do projeto -->
+	<!--  ******************************** -->
+	<build>
+		<finalName>${project.groupId}</finalName>
+		 <resources>
+			<resource>
+				 <filtering>false</filtering>
+				 <directory>${basedir}/**/ibmconfig/cells/defaultCell</directory>
+				 <excludes>
+				  	<exclude>**/resources.xml/**, **/variables.xml/**, **/security.xml/**</exclude>
+				 </excludes>
+			</resource>
+  		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<earSourceDirectory>${project.basedir}</earSourceDirectory>
+					<earSourceExcludes>target/**, **/resources.xml/**, **/variables.xml/**, **/security.xml/**</earSourceExcludes>
+					<generateApplicationXml>false</generateApplicationXml>
+					<modules>
+						<ejbModule>
+							<groupId>BSAD2-Full</groupId>
+							<artifactId>BSAD2-Full-ejb</artifactId>
+						</ejbModule>
+						<webModule>
+							<groupId>BSAD2-Full</groupId>
+							<artifactId>BSAD2-Full-web</artifactId>
+							<contextRoot>BSAD2-Full</contextRoot>
+						</webModule>
+					</modules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- ******************************************** -->
+	<!-- Padrão para o pom.xml principal (parent POM) -->
+	<!-- ******************************************** -->
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>BSAD2-Full</groupId>
+	<artifactId>BSAD2-Full-pom</artifactId>
+	<name>BSAD2-Full-pom</name>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<!-- ************************************ -->
+	<!-- Configuração do parent project (POM) -->
+	<!-- ************************************ -->
+ 	<parent>
+	    <groupId>BSAD-Framework-2.3</groupId>
+	    <artifactId>BSAD-Framework-parent-pom</artifactId>
+	    <version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<description>
+		Projeto BSAD2-Full
+	</description>
+
+	<organization>
+		<name>Bradesco Seguros e Previdência</name>
+		<url>http://www.bradescoseguros.com.br</url>
+	</organization>
+
+	<url>http://ic.dsv.bradseg.com.br/build/job/${project.groupId}</url>
+	<inceptionYear>2011</inceptionYear>
+
+	<!-- ****************** -->
+	<!-- Modulos do projeto -->
+	<!-- ****************** -->
+	<modules>
+		<module>../${project.groupId}</module>
+		<module>../${project.groupId}-util</module>
+		<module>../${project.groupId}-ejbClient</module>
+		<module>../${project.groupId}-ejb</module>
+		<module>../${project.groupId}-web</module>
+		<module>../${project.groupId}-ws</module>
+	</modules>
+
+	<!-- *************************** -->
+	<!-- Default goal para o projeto -->
+	<!-- *************************** -->
+	<build>
+		<defaultGoal>install</defaultGoal>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<target>${maven.compiler.target}</target>
+					<source>${maven.compiler.source}</source>
+					<debug>true</debug>
+					<debuglevel>lines,vars,source</debuglevel>
+					<verbose>true</verbose>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+					<compilerArguments>
+						<Xlint />
+					</compilerArguments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
