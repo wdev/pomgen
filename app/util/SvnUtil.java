@@ -25,20 +25,14 @@ public class SvnUtil {
         this.password = password;
     }
 
-    public boolean checkout(String url, File folder) {
-        try {
-            SVNURL svnUrl = SVNURL.parseURIDecoded(url);
-            SVNRepository repository = getRepository(svnUrl, getAuthManager(username, password));
-            SVNClientManager ourClientManager = SVNClientManager.newInstance(null, repository.getAuthenticationManager());
-        
-            SVNUpdateClient updateClient = ourClientManager.getUpdateClient();
-            updateClient.setIgnoreExternals(false);
-            updateClient.doCheckout(svnUrl, folder, SVNRevision.HEAD, SVNRevision.HEAD, true);
-            return folder.isDirectory();
-        }
-        catch (SVNException e) {
-            return false;
-        }
+    public void checkout(String url, File folder) throws SVNException {
+        SVNURL svnUrl = SVNURL.parseURIDecoded(url);
+        SVNRepository repository = getRepository(svnUrl, getAuthManager(username, password));
+        SVNClientManager ourClientManager = SVNClientManager.newInstance(null, repository.getAuthenticationManager());
+    
+        SVNUpdateClient updateClient = ourClientManager.getUpdateClient();
+        updateClient.setIgnoreExternals(false);
+        updateClient.doCheckout(svnUrl, folder, SVNRevision.HEAD, SVNRevision.HEAD, true);
     }
     
     private ISVNAuthenticationManager getAuthManager(String username, String password) {

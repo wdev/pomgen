@@ -19,7 +19,13 @@ public class SvnUtilTest extends AbstractTest {
         SvnUtil svnUtil = new SvnUtil("app-svn", "viscondedeinhauma@37");
         File repository = new File(CHECKOUT_DIR);
 
-        assertTrue(svnUtil.checkout("http://apps.wdev.com.br/svn/wdev/ips/scripts", repository));
+        try {
+            svnUtil.checkout("http://apps.wdev.com.br/svn/wdev/ips/scripts", repository);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
     
     @Test
@@ -27,7 +33,11 @@ public class SvnUtilTest extends AbstractTest {
         SvnUtil svnUtil = new SvnUtil("xxxx", "11111");
         File repository = new File(CHECKOUT_DIR);
 
-        assertFalse(svnUtil.checkout("http://apps.wdev.com.br/svn/wdev/ips/scripts", repository));
+        try {
+            svnUtil.checkout("http://apps.wdev.com.br/svn/wdev/ips/scripts", repository);
+            fail();
+        }
+        catch (Exception e) {}
     }
     
     

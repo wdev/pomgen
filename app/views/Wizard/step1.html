@@ -1,0 +1,79 @@
+#{extends 'main.html' /}
+
+#{set 'myscripts'}
+<script>
+function checkout() {
+	var login = $('#svnLogin').val(),
+	    password = $('#svnPassword').val(),
+	    repository = $('#svnRepository').val();
+	
+	if (repository.length > 0) {
+		$("#loading").bind("ajaxSend", function() {
+            $(this).show();
+        }).bind("ajaxComplete", function() {
+            $(this).hide();
+        });
+
+		var data = {'svnLogin':login, 'svnPassword':password, 'svnRepository':repository};
+		$.ajax({
+	        type: 'POST',
+	        url: '/checkout',
+	        dataType: 'json',
+	        data: data,
+	        async: false,
+	        success: function(data) {
+			    if (! data.success) {
+			    	$('#checkoutError').html(data.message);
+			    }
+			},
+			error: function(data) { 
+				$('#checkoutError').html(data.message);
+			},
+		});
+	};
+	
+	
+};
+</script>
+#{/}
+
+
+<div class="block">
+    <div class="block_head">
+        <div class="bheadl"></div>
+        <div class="bheadr"></div>
+        <h2>Passo 1</h2>
+    </div>
+
+    <div class="block_content">
+        <form id="frmCheckout">
+            <p>
+                <label>Usu&aacute;rio</label><br>
+                <input type="text" id="svnLogin" name="svnLogin" class="text small">
+            </p>
+            <p>
+                <label>Senha</label><br>
+                <input type="password" id="svnPassword" name="svnPassword" class="text small">
+            </p>
+            <p>
+	            <label>URL do reposit&oacute;rio</label><br>
+	            <input type="text" id="svnRepository" name="svnRepository" class="text small">
+	            <span class="note">(Lembre-se do /trunk)</span><br>
+	            <span id="checkoutError" class="note error"></span>
+	        </p>
+	        
+	        <div id="loading" style="display:none">
+			    <img src="@{'/public/images/ajax-loader.gif'}" alt="Loading" />&nbsp;Loading...
+			</div>
+	        
+            <hr>
+            <input type="button" name="submit" value="Checkout" class="submit small" onclick="checkout()">
+             
+            <!--<input type="button" name="cancel" value="Cancel" class="submit small" onclick="window.location.href=''"> -->
+            <br><br>
+        </form>
+    </div>
+    
+    <div class="bendl"></div>
+    <div class="bendr"></div>
+</div>
