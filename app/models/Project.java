@@ -26,33 +26,70 @@ public class Project extends Model {
     
     private File directory;
     
-    public Project(File projectDir) {
-        this.directory = projectDir;
+    public Project(File project) {
+        this.directory = project;
+        this.name = project.getName();
     }
     
     public List<String> getModules() {
-        String name = directory.getName();
-        
         List<String> modules = new ArrayList<String>();
-        
-        if (checkExists("ear")) modules.add(name + "-ear"); 
-        if (checkExists("ejb")) modules.add(name + "-ejb");
-        if (checkExists("ejbClient")) modules.add(name + "-ejbClient");
-        if (checkExists("pom")) modules.add(name + "-pom");
-        if (checkExists("web")) modules.add(name + "-web");
-        if (checkExists("ws")) modules.add(name + "-ws");
-        if (checkExists("util")) modules.add(name + "-util");
+        modules.add(getEar().getName()); 
+        modules.add(getEjb().getName());
+        modules.add(getEjbClient().getName());
+        modules.add(getPom().getName());
+        modules.add(getWeb().getName());
+        modules.add(getWs().getName());
+        modules.add(getUtil().getName());
+        for (int index=0; index < modules.size(); index++) {
+            if (modules.get(index) == null || modules.get(index).equals("")) {
+                modules.remove(index);
+            }
+        }
         
         return modules;
     }
     
-    private boolean checkExists(String module) {
+    public File getEar() {
+        return getModuleIfExists("");
+    }
+    
+    public File getEjb() {
+        return getModuleIfExists("-ejb");
+    }
+    
+    public File getEjbClient() {
+        return getModuleIfExists("-ejbClient");
+    }
+    
+    public File getPom() {
+        return getModuleIfExists("-pom");
+    }
+    
+    public File getWeb() {
+        return getModuleIfExists("-web");
+    }
+    
+    public File getWs() {
+        return getModuleIfExists("-ws");
+    }
+    
+    public File getUtil() {
+        return getModuleIfExists("-util");
+    }
+    
+    public File getModuleIfExists(String module) {
+        String moduleName = directory.getName() + module;
+        if (moduleExists(moduleName)) {
+            return new File(directory.getPath() + System.getProperty("file.separator") + moduleName);
+        }
+        return new File("");
+    }
+    
+    private boolean moduleExists(final String moduleName) {
         if (directory.isDirectory()) {
-            final String dirName = directory.getName() + "-" + module;
-            
             FilenameFilter filter = new FilenameFilter() {
                 public boolean accept(File dir, String name) {
-                    return name.equals(dirName);
+                    return name.equals(moduleName);
                 }
             };
             

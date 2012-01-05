@@ -16,7 +16,7 @@ public class ProjectTest extends UnitTest {
         Project project = new Project(dir);
         List<String> modules = project.getModules();
         
-        assertTrue(modules.contains("BSAD2-Full-ear"));
+        assertTrue(modules.contains("BSAD2-Full"));
         assertTrue(modules.contains("BSAD2-Full-ejb"));
         assertTrue(modules.contains("BSAD2-Full-ejbClient"));
         assertTrue(modules.contains("BSAD2-Full-pom"));

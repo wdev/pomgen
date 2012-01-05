@@ -7,7 +7,7 @@ import org.apache.commons.io.FileUtils;
 
 import play.test.UnitTest;
 
-public class AbstractTest extends UnitTest {
+public abstract class AbstractTest extends UnitTest {
 
     protected final String TEMP_DIR = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator");
     

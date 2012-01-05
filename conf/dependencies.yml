@@ -2,3 +2,4 @@
 
 require:
     - play
+    - org.apache.maven -> maven-model 2.2.1
